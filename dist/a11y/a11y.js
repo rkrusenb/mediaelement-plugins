@@ -155,7 +155,7 @@ Object.assign(MediaElementPlayer.prototype, {
         var audioDescriptionTitle = mejs.i18n.t('mejs.a11y-audio-description');
         var audioDescriptionButton = document.createElement('div');
         audioDescriptionButton.className = t.options.classPrefix + 'button ' + t.options.classPrefix + 'audio-description-button';
-        audioDescriptionButton.innerHTML = '<button type="button" aria-controls="' + t.id + '" title="' + audioDescriptionTitle + '" aria-label="' + audioDescriptionTitle + '" tabindex="0">' + iconHtml + '</button>';
+        audioDescriptionButton.innerHTML = '<button type="button" aria-controls="' + t.id + '" title="' + audioDescriptionTitle + '"\n                                                    aria-label="' + audioDescriptionTitle + '" aria-pressed="false" tabindex="0">' + iconHtml + '</button>';
 
         t.addControlElement(audioDescriptionButton, 'audio-description');
 
@@ -163,6 +163,11 @@ Object.assign(MediaElementPlayer.prototype, {
         t.audioDescriptionClickHandler = function () {
             t.options.audioDescriptionToggled = !t.options.audioDescriptionToggled;
             mejs.Utils.toggleClass(audioDescriptionButton, 'audio-description-on');
+
+            var actualButton = audioDescriptionButton.querySelector('button');
+            if (actualButton) {
+                actualButton.setAttribute('aria-pressed', mejs.Utils.hasClass(audioDescriptionButton, 'audio-description-on'));
+            }
 
             t._toggleAudioDescription();
         };
@@ -175,13 +180,18 @@ Object.assign(MediaElementPlayer.prototype, {
         var videoDescriptionTitle = mejs.i18n.t('mejs.a11y-video-description');
         var videoDescriptionButton = document.createElement('div');
         videoDescriptionButton.className = t.options.classPrefix + 'button ' + t.options.classPrefix + 'video-description-button';
-        videoDescriptionButton.innerHTML = '<button type="button" aria-controls="' + t.id + '" title="' + videoDescriptionTitle + '" aria-label="' + videoDescriptionTitle + '" tabindex="0">' + iconHtml + '</button>';
+        videoDescriptionButton.innerHTML = '<button type="button" aria-controls="' + t.id + '" title="' + videoDescriptionTitle + '"\n                                                    aria-label="' + videoDescriptionTitle + '" aria-pressed="false" tabindex="0">' + iconHtml + '</button>';
         t.addControlElement(videoDescriptionButton, 'video-description');
 
         t.videoDescriptionButton = videoDescriptionButton;
         t.videoDescriptionClickHandler = function () {
             t.options.videoDescriptionToggled = !t.options.videoDescriptionToggled;
             mejs.Utils.toggleClass(videoDescriptionButton, 'video-description-on');
+
+            var actualButton = videoDescriptionButton.querySelector('button');
+            if (actualButton) {
+                actualButton.setAttribute('aria-pressed', mejs.Utils.hasClass(videoDescriptionButton, 'video-description-on'));
+            }
 
             t._toggleVideoDescription();
         };
