@@ -208,7 +208,8 @@ Object.assign(MediaElementPlayer.prototype, {
         const audioDescriptionTitle = mejs.i18n.t('mejs.a11y-audio-description');
         const audioDescriptionButton = document.createElement('div');
         audioDescriptionButton.className = `${t.options.classPrefix}button ${t.options.classPrefix}audio-description-button`;
-        audioDescriptionButton.innerHTML = `<button type="button" aria-controls="${t.id}" title="${audioDescriptionTitle}" aria-label="${audioDescriptionTitle}" tabindex="0">${iconHtml}</button>`;
+        audioDescriptionButton.innerHTML = `<button type="button" aria-controls="${t.id}" title="${audioDescriptionTitle}"
+                                                    aria-label="${audioDescriptionTitle}" aria-pressed="false" tabindex="0">${iconHtml}</button>`;
 
         t.addControlElement(audioDescriptionButton, 'audio-description');
 
@@ -217,6 +218,11 @@ Object.assign(MediaElementPlayer.prototype, {
         t.audioDescriptionClickHandler = () => {
             t.options.audioDescriptionToggled = !t.options.audioDescriptionToggled;
             mejs.Utils.toggleClass(audioDescriptionButton, 'audio-description-on');
+
+            const actualButton = audioDescriptionButton.querySelector('button');
+            if (actualButton) {
+                actualButton.setAttribute('aria-pressed', mejs.Utils.hasClass(audioDescriptionButton, 'audio-description-on'));
+            }
 
             t._toggleAudioDescription();
         };
@@ -235,7 +241,8 @@ Object.assign(MediaElementPlayer.prototype, {
         const videoDescriptionTitle = mejs.i18n.t('mejs.a11y-video-description');
         const videoDescriptionButton = document.createElement('div');
         videoDescriptionButton.className = `${t.options.classPrefix}button ${t.options.classPrefix}video-description-button`;
-        videoDescriptionButton.innerHTML = `<button type="button" aria-controls="${t.id}" title="${videoDescriptionTitle}" aria-label="${videoDescriptionTitle}" tabindex="0">${iconHtml}</button>`;
+        videoDescriptionButton.innerHTML = `<button type="button" aria-controls="${t.id}" title="${videoDescriptionTitle}"
+                                                    aria-label="${videoDescriptionTitle}" aria-pressed="false" tabindex="0">${iconHtml}</button>`;
         t.addControlElement(videoDescriptionButton, 'video-description');
 
         // Store reference to button and handler for cleanup
@@ -243,6 +250,11 @@ Object.assign(MediaElementPlayer.prototype, {
         t.videoDescriptionClickHandler = () => {
             t.options.videoDescriptionToggled = !t.options.videoDescriptionToggled;
             mejs.Utils.toggleClass(videoDescriptionButton, 'video-description-on');
+
+            const actualButton = videoDescriptionButton.querySelector('button');
+            if (actualButton) {
+                actualButton.setAttribute('aria-pressed', mejs.Utils.hasClass(videoDescriptionButton, 'video-description-on'));
+            }
 
             t._toggleVideoDescription();
         };
